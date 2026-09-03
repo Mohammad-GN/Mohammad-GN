@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Mohammad Ghasemi Noureyni</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      background: #050b16;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 420px;
+      overflow: hidden;
+      background:
+        radial-gradient(
+          ellipse at center,
+          rgba(16, 39, 70, 0.35) 0%,
+          rgba(5, 11, 22, 0.95) 65%,
+          #050b16 100%
+        );
+    }
+
+    /* Subtle background grid */
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+
+      background-image:
+        linear-gradient(
+          rgba(40, 75, 110, 0.08) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(40, 75, 110, 0.08) 1px,
+          transparent 1px
+        );
+
+      background-size: 45px 45px;
+      pointer-events: none;
+    }
+
+    #waveCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: absolute;
+      inset: 0;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      z-index: 10;
+
+      pointer-events: none;
+    }
+
+    .name {
+      margin: 0;
+
+      font-size: clamp(32px, 5vw, 60px);
+      font-weight: 700;
+      letter-spacing: 1px;
+
+      color: #e7edf5;
+
+      text-shadow:
+        0 0 10px rgba(0, 0, 0, 0.9),
+        0 0 25px rgba(6, 20, 40, 0.9),
+        0 0 50px rgba(10, 30, 55, 0.8);
+    }
+
+    .subtitle {
+      margin-top: 12px;
+
+      font-size: clamp(14px, 2vw, 19px);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+
+      color: #93a8bd;
+
+      text-shadow:
+        0 0 10px rgba(0, 0, 0, 0.9);
+    }
+
+    .description {
+      margin-top: 12px;
+
+      font-size: 13px;
+
+      color: #61778d;
+
+      letter-spacing: 1px;
+    }
+
+    /* Small quantum label */
+    .quantum-label {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      color: rgba(125, 149, 171, 0.55);
+
+      font-size: 11px;
+      letter-spacing: 1.5px;
+
+      z-index: 10;
+
+      white-space: nowrap;
+    }
+
+    /* Small scanning line */
+    .scanline {
+      position: absolute;
+
+      left: 0;
+      right: 0;
+
+      height: 1px;
+
+      background: rgba(25, 53, 82, 0.18);
+
+      animation: scan 6s linear infinite;
+
+      z-index: 2;
+    }
+
+    @keyframes scan {
+      0% {
+        top: -5%;
+      }
+
+      100% {
+        top: 105%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <section class="hero">
+
+    <canvas id="waveCanvas"></canvas>
+
+    <div class="scanline"></div>
+
+    <div class="hero-content">
+      <h1 class="name">
+        Mohammad Ghasemi Noureyni
+      </h1>
+
+      <div class="subtitle">
+        M.Sc. in Condensed Matter Physics
+      </div>
+
+      <div class="description">
+        Theoretical &amp; Computational Physics · Quantum Many-Body Systems · Numerical Methods
+      </div>
+    </div>
+
+
+
+  </section>
+
+
+<script>
+
+const canvas = document.getElementById("waveCanvas");
+const ctx = canvas.getContext("2d");
+
+let width;
+let height;
+let dpr;
+
+function resizeCanvas() {
+
+  dpr = window.devicePixelRatio || 1;
+
+  width = canvas.clientWidth;
+  height = canvas.clientHeight;
+
+  canvas.width = width * dpr;
+  canvas.height = height * dpr;
+
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+
+/*
+---------------------------------------------------------
+  Quantum Wave Packet
+---------------------------------------------------------
+
+  The wave packet is constructed from a superposition
+  of several waves:
+
+      ψ(x,t) = Σ A_n cos(k_n x - ω_n t + φ_n)
+
+  Their amplitudes are modulated by a Gaussian envelope.
+
+  This produces:
+
+        localized packet
+        +
+        internal interference
+        +
+        propagation
+---------------------------------------------------------
+*/
+
+
+const waves = [
+  {
+    amplitude: 0.32,
+    frequency: 0.052,
+    phase: 0.0
+  },
+
+  {
+    amplitude: 0.25,
+    frequency: 0.070,
+    phase: 1.1
+  },
+
+  {
+    amplitude: 0.21,
+    frequency: 0.089,
+    phase: 2.0
+  },
+
+  {
+    amplitude: 0.16,
+    frequency: 0.108,
+    phase: 2.7
+  },
+
+  {
+    amplitude: 0.11,
+    frequency: 0.132,
+    phase: 4.1
+  }
+];
+
+
+let time = 0;
+
+
+/*
+---------------------------------------------------------
+  Draw
+---------------------------------------------------------
+*/
+
+function draw() {
+
+  ctx.clearRect(0, 0, width, height);
+
+  /*
+  Packet center moves from left to right.
+  */
+
+  const packetSpeed = 0.55;
+
+  let packetCenter =
+      ((time * packetSpeed) % (width + 500)) - 250;
+
+
+  /*
+  Vertical center
+  */
+
+  const centerY = height * 0.50;
+
+
+  /*
+  Width of the wave packet
+  */
+
+  const sigma = Math.min(width * 0.14, 190);
+
+
+  /*
+  -------------------------------------------------------
+    Draw faint probability-density envelope
+  -------------------------------------------------------
+  */
+
+  const envelopeGradient =
+    ctx.createLinearGradient(
+      packetCenter - sigma * 2,
+      0,
+      packetCenter + sigma * 2,
+      0
+    );
+
+  envelopeGradient.addColorStop(
+    0,
+    "rgba(6, 22, 43, 0)"
+  );
+
+  envelopeGradient.addColorStop(
+    0.5,
+    "rgba(17, 40, 68, 0.16)"
+  );
+
+  envelopeGradient.addColorStop(
+    1,
+    "rgba(6, 22, 43, 0)"
+  );
+
+
+  ctx.beginPath();
+
+  for (
+    let x = packetCenter - sigma * 3;
+    x <= packetCenter + sigma * 3;
+    x += 3
+  ) {
+
+    const dx = x - packetCenter;
+
+    const envelope =
+      Math.exp(
+        -(dx * dx) /
+        (2 * sigma * sigma)
+      );
+
+    const y =
+      centerY -
+      envelope * height * 0.22;
+
+    if (
+      x === packetCenter - sigma * 3
+    ) {
+      ctx.moveTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
+  }
+
+
+  /*
+  -------------------------------------------------------
+    Main superposition wave
+  -------------------------------------------------------
+  */
+
+  ctx.beginPath();
+
+  for (let x = -10; x <= width + 10; x += 2) {
+
+    const dx = x - packetCenter;
+
+    /*
+      Gaussian localization
+    */
+
+    const envelope =
+      Math.exp(
+        -(dx * dx) /
+        (2 * sigma * sigma)
+      );
+
+
+    /*
+      Superposition
+    */
+
+    let psi = 0;
+
+    for (const wave of waves) {
+
+      /*
+        Slight dispersion so the internal waves
+        do not remain perfectly synchronized.
+      */
+
+      const phase =
+        wave.frequency * dx
+        -
+        time * (
+          0.020 +
+          wave.frequency * 0.055
+        )
+        +
+        wave.phase;
+
+
+      psi +=
+        wave.amplitude *
+        Math.sin(phase);
+    }
+
+
+    /*
+      Final wave displacement
+    */
+
+    const y =
+      centerY +
+      psi *
+      envelope *
+      height *
+      0.30;
+
+
+    if (x === -10) {
+
+      ctx.moveTo(x, y);
+
+    } else {
+
+      ctx.lineTo(x, y);
+
+    }
+  }
+
+
+  /*
+  -------------------------------------------------------
+    Glow
+  -------------------------------------------------------
+  */
+
+  ctx.lineWidth = 10;
+
+  ctx.strokeStyle =
+    "rgba(9, 30, 58, 0.10)";
+
+  ctx.shadowBlur = 28;
+
+  ctx.shadowColor =
+    "rgba(7, 29, 58, 0.5)";
+
+  ctx.stroke();
+
+
+  /*
+  -------------------------------------------------------
+    Main navy wave
+  -------------------------------------------------------
+  */
+
+  ctx.lineWidth = 2.2;
+
+  ctx.strokeStyle =
+    "#12345a";
+
+  ctx.shadowBlur = 14;
+
+  ctx.shadowColor =
+    "rgba(10, 39, 75, 0.75)";
+
+  ctx.stroke();
+
+
+  /*
+  -------------------------------------------------------
+    Secondary interference pattern
+  -------------------------------------------------------
+  */
+
+  ctx.beginPath();
+
+  for (let x = -10; x <= width + 10; x += 2) {
+
+    const dx = x - packetCenter;
+
+    const envelope =
+      Math.exp(
+        -(dx * dx) /
+        (2 * sigma * sigma)
+      );
+
+
+    let psi2 = 0;
+
+    for (let i = 0; i < waves.length; i++) {
+
+      const wave = waves[i];
+
+      const phase =
+        wave.frequency * 1.7 * dx
+        -
+        time * (
+          0.028 +
+          i * 0.004
+        )
+        +
+        wave.phase * 1.3;
+
+
+      psi2 +=
+        wave.amplitude *
+        Math.cos(phase);
+    }
+
+
+    const y =
+      centerY +
+      psi2 *
+      envelope *
+      height *
+      0.18;
+
+
+    if (x === -10) {
+      ctx.moveTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
+  }
+
+
+  ctx.lineWidth = 1;
+
+  ctx.strokeStyle =
+    "rgba(28, 61, 94, 0.42)";
+
+  ctx.shadowBlur = 7;
+
+  ctx.shadowColor =
+    "rgba(16, 42, 70, 0.5)";
+
+  ctx.stroke();
+
+
+  /*
+  -------------------------------------------------------
+    Probability envelope
+  -------------------------------------------------------
+  */
+
+  ctx.beginPath();
+
+  for (
+    let x = packetCenter - sigma * 3;
+    x <= packetCenter + sigma * 3;
+    x += 3
+  ) {
+
+    const dx = x - packetCenter;
+
+    const envelope =
+      Math.exp(
+        -(dx * dx) /
+        (2 * sigma * sigma)
+      );
+
+
+    const y =
+      centerY -
+      envelope *
+      height *
+      0.24;
+
+
+    if (
+      x === packetCenter - sigma * 3
+    ) {
+
+      ctx.moveTo(x, y);
+
+    } else {
+
+      ctx.lineTo(x, y);
+
+    }
+  }
+
+
+  ctx.lineWidth = 1;
+
+  ctx.strokeStyle =
+    "rgba(39, 69, 100, 0.20)";
+
+  ctx.shadowBlur = 0;
+
+  ctx.stroke();
+
+
+  /*
+  -------------------------------------------------------
+    Restore shadows
+  -------------------------------------------------------
+  */
+
+  ctx.shadowBlur = 0;
+
+
+  time += 0.8;
+
+  requestAnimationFrame(draw);
+}
+
+
+draw();
+
+</script>
+
+</body>
+</html>
