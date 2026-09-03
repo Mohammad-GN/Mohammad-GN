@@ -1,13 +1,14 @@
 <div align="center">
 
-<!-- انیمیشن متحرک تایپ زنده متون فیزیک -->
-<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1000&color=00D2FF&center=true&vcenter=true&width=600&lines=Hi%2C+I'm+Mohammad+Ghasemi+Noureyni;Condensed+Matter+Physicist;Quantum+Many-Body+Theory;Continuous+Unitary+Transformations" alt="Typing SVG" /></a>
+<img src="./assets/quantum-header.svg" width="100%" alt="Quantum Physics Header">
+
+<br>
+
+# Mohammad Ghasemi Noureyni
 
 ### M.Sc. in Condensed Matter Physics
-**Theoretical & Computational Physics · Quantum Many-Body Systems · Numerical Methods**
 
-<!-- بنر متحرک یا شماتیک کوانتومی -->
-<img src="https://raw.githubusercontent.com/andrelmura/andrelmura/main/assets/wave.gif" width="100%" height="100px" style="object-fit: cover; opacity: 0.8;" alt="Quantum Wave Packet Animation"/>
+**Theoretical & Computational Physics · Quantum Many-Body Systems**
 
 <br>
 
