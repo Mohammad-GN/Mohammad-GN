@@ -60,8 +60,6 @@
 
 My M.Sc. research focuses on the **Ionic Hubbard Model**, studied using **Continuous Unitary Transformations (CUTs)** and flow-equation methods, to investigate Mott-insulating phases and quantum phase transitions in low-dimensional correlated-electron systems.
 
-<sub>Repository links to code and papers will be added here as projects are published.</sub>
-
 ---
 
 <div align="center">
@@ -69,9 +67,6 @@ My M.Sc. research focuses on the **Ionic Hubbard Model**, studied using **Contin
 ### 📫 Connect
 
 <a href="mailto:Mohammad.gh.1995@gmail.com"><img src="https://img.shields.io/badge/Email-D14836?style=flat-square&logo=gmail&logoColor=white" alt="Email"></a>
-<!-- Replace these two with your real Scholar / ORCID links once created -->
-<a href="https://scholar.google.com/"><img src="https://img.shields.io/badge/Google%20Scholar-4285F4?style=flat-square&logo=google-scholar&logoColor=white" alt="Google Scholar"></a>
-<a href="https://orcid.org/"><img src="https://img.shields.io/badge/ORCID-A6CE39?style=flat-square&logo=orcid&logoColor=white" alt="ORCID"></a>
 
 </div>
 
