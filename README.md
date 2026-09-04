@@ -1,10 +1,8 @@
 <div align="center">
-  <img src="./assets/quantum_hero(3).gif" width="100%" alt="Quantum many-body physics banner">
+  <img src="./assets/quantum-hero.gif" width="100%" alt="Quantum many-body physics banner">
 </div>
 
 <div align="center">
-
-### M.Sc. in Condensed Matter Physics · Shahid Beheshti University
 
 **Theoretical &amp; Computational Physics** &nbsp;·&nbsp; **Quantum Many-Body Systems** &nbsp;·&nbsp; **Numerical Methods**
 
