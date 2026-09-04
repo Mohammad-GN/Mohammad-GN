@@ -57,10 +57,59 @@ alt="Quantum many-body physics">
 
 **Tools**
 
-`Python` · `NumPy` · `SciPy`
-`Matplotlib` · `C++` · `LaTeX`
-`Linux` · `Git`
+<table>
+<tr>
+<td align="center" width="25%">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="55"/>
+<br>
+<sub>Python</sub>
+</td>
 
+<td align="center" width="25%">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" width="55"/>
+<br>
+<sub>NumPy</sub>
+</td>
+
+<td align="center" width="25%">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scipy/scipy-original.svg" width="55"/>
+<br>
+<sub>SciPy</sub>
+</td>
+
+<td align="center" width="25%">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matplotlib/matplotlib-original.svg" width="55"/>
+<br>
+<sub>Matplotlib</sub>
+</td>
+</tr>
+
+<tr>
+<td align="center">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" width="55"/>
+<br>
+<sub>C++</sub>
+</td>
+
+<td align="center">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/latex/latex-original.svg" width="55"/>
+<br>
+<sub>LaTeX</sub>
+</td>
+
+<td align="center">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" width="55"/>
+<br>
+<sub>Linux</sub>
+</td>
+
+<td align="center">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" width="55"/>
+<br>
+<sub>Git</sub>
+</td>
+</tr>
+</table>
 </td>
 </tr>
 </table>
